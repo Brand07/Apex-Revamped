@@ -8,6 +8,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 import getpass
 import time
+import sys
 
 # Define the excel sheet for new users
 
@@ -88,22 +89,49 @@ def read_user_dump():
 #        return False
 
 
+def process_users():
+    global first_name, last_name, employ_id, badge_num, department
+    # Loop through each row in Excel and add users
+    for index, row in apex_users.iterrows():
+        first_name = row["First Name"]
+        last_name = row["Last Name"]
+        employ_id = row["Badge Number"]
+        
+        # Check if 'Badge Number' is NaN and handle accordingly
+        if pd.isna(row["Badge Number"]):
+            # Option 1: Skip this user
+            continue
+            # Option 2: Use a default value, e.g., 0 or some placeholder
+            # badge_num = 0
+            # Option 3: Handle NaN differently as per your requirements
+        else:
+            badge_num = int(row["Badge Number"])
+        
+        department = row["Department"]
+        
+        add_user(first_name, last_name, employ_id, badge_num, department)
+
 
 def add_user(first_name, last_name, employee_id, badge_num, department):
+    time.sleep(2)
     print(f"Searching For Badge Number  {badge_num}.")
     existing_user_search = driver.find_element(By.ID, "searchUsersText")
+    existing_user_search.click()
     existing_user_search.clear()
     existing_user_search.send_keys(badge_num)
+    print("Searching..")
     existing_user_search.send_keys(Keys.RETURN)
     #check for element on the page
     time.sleep(2)
     user_element = driver.find_elements(By.XPATH, "//*[@id='tr0']")
-    existing_user_search.clear()
+    #existing_user_search.clear()
     time.sleep(1)
     #check if the element exists
     if len(user_element) == 1:
         print(f"{badge_num} already exists. Proceeding to change existing info.")
         last_name_element = driver.find_element(By.CSS_SELECTOR, '#tr0 > td:nth-child(1) > a:nth-child(1)')
+        last_name_element.click()
+        sys.exit()
     else: 
         print(f"{badge_num} doesn't exist. Adding now..")
         add_user_link = driver.find_element(By.ID, "addUserLink")
@@ -165,27 +193,7 @@ def group_selection(group):
     checkbox = driver.find_element(By.XPATH, xpath)
     checkbox.click()
 
-def process_users():
-    global first_name, last_name, employ_id, badge_num, department
-    # Loop through each row in Excel and add users
-    for index, row in apex_users.iterrows():
-        first_name = row["First Name"]
-        last_name = row["Last Name"]
-        employ_id = row["Badge Number"]
-        
-        # Check if 'Badge Number' is NaN and handle accordingly
-        if pd.isna(row["Badge Number"]):
-            # Option 1: Skip this user
-            continue
-            # Option 2: Use a default value, e.g., 0 or some placeholder
-            # badge_num = 0
-            # Option 3: Handle NaN differently as per your requirements
-        else:
-            badge_num = int(row["Badge Number"])
-        
-        department = row["Department"]
-        
-        add_user(first_name, last_name, employ_id, badge_num, department)
+
 
 
 
