@@ -269,9 +269,5 @@ def group_selection(group):
     checkbox.click()
 
 
-
-
-
-
 login_to_apex()
 
