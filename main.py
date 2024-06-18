@@ -203,7 +203,7 @@ def add_user(first_name, last_name, employee_id, badge_num, department):
         popup.click()
         print(f"User {first_name} {last_name} has been added!")
         #process_users()
-        driver.quit("All Done - Quiting WebDriver.")
+        
 
 
 def uncheck_all_checkboxes():
