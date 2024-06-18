@@ -161,7 +161,7 @@ def add_user(first_name, last_name, employee_id, badge_num, department):
         popup = driver.find_element(By.XPATH, "/html/body/div[4]/div[3]/div/button")
         popup.click()
         print(f"User {first_name} {last_name} has been added!")
-        process_users()
+        #process_users()
 
 
 def uncheck_all_checkboxes():
