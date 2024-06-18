@@ -1,10 +1,11 @@
 import pandas as pd
 from selenium import webdriver
-#from selenium.webdriver.support.ui import WebDriverWait
-#from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import TimeoutException
 #from selenium.common.exceptions import NoSuchElementException
 import getpass
 import time
@@ -48,28 +49,7 @@ def login_to_apex():
     #Navigate to the 'Manage Users' screen
     driver.get("https://apexconnectandgo.com/APEX-Login/accountAction_initManageuser.action?isShow=users")
     process_users()
-    # Find a specific element on the page, if element exists, call 
-    # another function.
-
-    # Check if a specific element exists
-    #ready_element = driver.find_element(By.ID, 'tab2')
-    #try:
-    #    ready_element = driver.find_element(By.ID, 'tab2')
-    #    print("Ready to continue.")
-    #    process_users()
-    #except:
-    #    print("Can't find element. Are we on the right page?")
-    #    driver.quit()
-    #
-def read_user_dump():
-    """
-    Opens and reads the .xlsx file of the users to be added.
-    Prints the DF and then iterates over the rows and sends to another function.
-    """
-    for index, row in apex_users.iterrows():
-        badge_num = row["Badge Number"]
-        print(badge_num)
-
+    
 
 def process_users():
     global first_name, last_name, employ_id, badge_num, department
@@ -148,7 +128,7 @@ def add_user(first_name, last_name, employee_id, badge_num, department):
         dept = driver.find_element(By.LINK_TEXT, "User Group Membership:")
         dept.click()
         time.sleep(1)
-        uncheck_all_checkboxes()
+        edit_all_checkboxes()
         time.sleep(1)
         edit_group_assignment(department)
         time.sleep(1)
@@ -201,14 +181,55 @@ def add_user(first_name, last_name, employee_id, badge_num, department):
         #process_users()
         
 
+#ef uncheck_all_checkboxes():
+#   print("Unchecking the boxes.")
+#   checkboxes = driver.find_elements(By.XPATH, "//input[starts-with(@id, 'membershipCheck')]")
+#   for checkbox in checkboxes:
+#       if checkbox.is_selected():
+#           checkbox.click()
 
+
+def edit_all_checkboxes():
+    """
+    Specifically unchecks all of the checkboxes when you go to edit a user.
+    Editing a user entails different XPATH IDs than adding a user.
+    This function loops through all of the checkboxes and unchecks them.
+    
+    """
+    time.sleep(1)
+    print("Unchecking all checkboxes.")
+    checkboxes = ['//*[@id="editMembershipCheck0"]', '//*[@id="editMembershipCheck1"]', '//*[@id="editMembershipCheck2"]',
+                    '//*[@id="editMembershipCheck3"]', '//*[@id="editMembershipCheck4"]', '//*[@id="editMembershipCheck5"]',
+                    '//*[@id="editMembershipCheck6"]', '//*[@id="editMembershipCheck7"]', '//*[@id="editMembershipCheck8"]']
+    
+    for xpath in checkboxes:
+        try:
+            # Wait for the checkbox to be clickable
+            checkbox_element = WebDriverWait(driver, 10).until(
+                EC.element_to_be_clickable((By.XPATH, xpath)))
+            # Optional: Check if a specific state is desired (e.g., checked/unchecked)
+            if checkbox_element.is_selected():
+                checkbox_element.click()
+        except TimeoutException:
+            print(f"Checkbox with XPath '{xpath}' not found or not clickable.")
+            
 def uncheck_all_checkboxes():
-    print("Unchecking the boxes.")
-    checkboxes = driver.find_elements(By.XPATH, "//input[starts-with(@id, 'membershipCheck')]")
-    for checkbox in checkboxes:
-        if checkbox.is_selected():
-            checkbox.click()
-    print("All boxes unchecked.")
+    time.sleep(1)
+    print("Unchecking all checkboxes.")
+    checkboxes = ['//*[@id="membershipCheck0"]', '//*[@id="membershipCheck1"]', '//*[@id="membershipCheck2"]',
+                  '//*[@id="membershipCheck3"]', '//*[@id="membershipCheck4"]', '//*[@id="membershipCheck5"]',
+                  '//*[@id="membershipCheck6"]', '//*[@id="membershipCheck7"]', '//*[@id="membershipCheck8"]']
+    for xpath in checkboxes:
+        try:
+            # Wait for the checkbox to be clickable
+            checkbox_element = WebDriverWait(driver, 10).until(
+                EC.element_to_be_clickable((By.XPATH, xpath)))
+        
+            # Optional: Check if a specific state is desired (e.g., checked/unchecked)
+            if checkbox_element.is_selected():
+                checkbox_element.click()
+        except TimeoutException:
+            print(f"Checkbox with XPath '{xpath}' not found or not clickable.")
 
 
 def group_assignment(group):
@@ -228,6 +249,7 @@ def edit_group_assignment(group):
     HTML IDs are different when editing a user
     VS when adding a user.
     """
+    
     print("Editing the group assignment.")
     time.sleep(1)
     if department == "Cycle Count":
@@ -241,16 +263,28 @@ def edit_group_assignment(group):
     elif department == "Voice Pick":
         return edit_group_selection(6)
     
-def edit_group_selection(group):
-    """
-    HTML IDs are different when editing a user
-    VS when adding a user.
-    """
-    time.sleep(1)
-    xpath = f"//*[@id='editMembershipCheck{group}']"
-    checkbox = driver.find_element(By.XPATH, xpath)
-    checkbox.click()
+#edit_group_selection(group):
+#"""
+#HTML IDs are different when editing a user
+#VS when adding a user.
+#"""
+#time.sleep(1)
+#xpath = f"editMembershipCheck{group}"
+#checkbox = driver.find_element(By.ID, xpath)
+#checkbox.click()
     
+
+def edit_group_selection(group):
+    try:
+        # Wait for the checkbox to be clickable
+        checkbox = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.ID, f"editMembershipCheck{group}")))
+    
+        # Optional: Check if a specific state is desired (e.g., checked/unchecked)
+        if not checkbox.is_selected():
+            checkbox.click()
+    except TimeoutException:
+        print(f"Checkbox with ID 'editMembershipCheck{group}' not found or not clickable.")
     
 def group_selection(group):
     emp_group = driver.find_element(By.LINK_TEXT, "User Group Membership:")
