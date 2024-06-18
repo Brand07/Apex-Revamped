@@ -115,29 +115,30 @@ def add_user(first_name, last_name, employee_id, badge_num, department):
         last_name_element.click()
         time.sleep(1)
         #sys.exit()
-        print("Finding First Name element.")
+        #print("Finding First Name element.")
         f_name = driver.find_element(By.ID, "edit_user.first_name")\
         # Clear the 'First Name' Field
-        print("First Name field.")
+        #print("First Name field.")
         f_name.clear()
-        print("Sending the new first name.")
+        #print("Sending the new first name.")
         f_name.send_keys(first_name)
-        print("Finding the last name field.")
+        #print("Finding the last name field.")
         l_name = driver.find_element(By.ID, "edit_user.last_name")
         # Clear the 'Last Name' Field
-        print("Clearing the last name field.")
+        #print("Clearing the last name field.")
         l_name.clear()
-        print("Sending the new last name.")
+        #print("Sending the new last name.")
         l_name.send_keys(last_name)
-        print("Finding the emp ID field.")
+        #print("Finding the emp ID field.")
         emp_id = driver.find_element(By.ID, "employeeId")
         # Clear the 'Employee ID' field.
-        print("Clear the emp ID field.")
+        #print("Clear the emp ID field.")
         emp_id.clear()
-        print("Sending the new employee ID.")
+        #print("Sending the new employee ID.")
         emp_id.send_keys(employee_id)
-        print("Finding the badge number field.")
+        #print("Finding the badge number field.")
         badge_number = driver.find_element(By.ID, "badgeNumber")
+        
         
 
         # Clear the 'Badge Number' Field
@@ -153,13 +154,20 @@ def add_user(first_name, last_name, employee_id, badge_num, department):
         #xpath = f"//input[@id='membershipCheck{group_assignment}']"
         #checkbox = driver.find_element(By.XPATH, xpath)
         #checkbox.click()
+        time.sleep(1)
         print('Clicking the save button')
-        save_button = driver.find_element(By.XPATH, "/html/body/div[21]/div[3]/div/button[2]")
+        try:
+            save_button = driver.find_element(By.XPATH, '/html/body/div[21]/div[3]/div/button[2]')
+            ActionChains(driver).move_to_element(save_button).click().perform()
+        except Exception:
+            save_button = driver.find_element(By.XPATH, '/html/body/div[21]/div[11]/div/button[2]')
+            ActionChains(driver).move_to_element(save_button).click().perform()
+        
         print("Save button clicked.")
-        ActionChains(driver).move_to_element(save_button).click().perform()
+        #ActionChains(driver).move_to_element(save_button).click().perform()
         time.sleep(2)
         print("Saving changes..")
-        submit = driver.find_element(By.XPATH, '//*[@id="updateUser"]')
+        submit = driver.find_element(By.ID, 'updateUser')
         submit.click()
         print("Changes saved.")
         #popup = driver.find_element(By.XPATH, "/html/body/div[4]/div[3]/div/button")
