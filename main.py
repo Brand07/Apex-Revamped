@@ -149,11 +149,8 @@ def add_user(first_name, last_name, employee_id, badge_num, department):
         dept.click()
         time.sleep(1)
         uncheck_all_checkboxes()
-        time.sleep(2)
+        time.sleep(1)
         edit_group_assignment(department)
-        #xpath = f"//input[@id='membershipCheck{group_assignment}']"
-        #checkbox = driver.find_element(By.XPATH, xpath)
-        #checkbox.click()
         time.sleep(1)
         print('Clicking the save button')
         try:
@@ -166,7 +163,6 @@ def add_user(first_name, last_name, employee_id, badge_num, department):
         print("Save button clicked.")
         #ActionChains(driver).move_to_element(save_button).click().perform()
         time.sleep(2)
-        print("Saving changes..")
         submit = driver.find_element(By.ID, 'updateUser')
         submit.click()
         print("Changes saved.")
@@ -196,7 +192,7 @@ def add_user(first_name, last_name, employee_id, badge_num, department):
         #checkbox.click()
         add_button = driver.find_element(By.XPATH, "//button[normalize-space()='Add']")
         ActionChains(driver).move_to_element(add_button).click().perform()
-        time.sleep(2)
+        time.sleep(1)
         submit = driver.find_element(By.XPATH, "//button[normalize-space()='Submit']")
         submit.click()
         popup = driver.find_element(By.XPATH, "/html/body/div[4]/div[3]/div/button")
@@ -250,23 +246,16 @@ def edit_group_selection(group):
     HTML IDs are different when editing a user
     VS when adding a user.
     """
-    print("Test 1")
-    #emp_group = driver.find_element(By.XPATH, "/html/body/div[1]/div[3]/div[2]/div/div[1]/table[1]/tbody/tr[1]/td/div/div[1]/div/table[3]/tbody/tr[2]/td[2]/div[1]/table[3]/tbody/tr[8]/td[1]/a")
-    #emp_group.click()
-    print("Test 2")
-
     time.sleep(1)
     xpath = f"//*[@id='editMembershipCheck{group}']"
     checkbox = driver.find_element(By.XPATH, xpath)
     checkbox.click()
-    print("Test 3")
+    
     
 def group_selection(group):
     emp_group = driver.find_element(By.LINK_TEXT, "User Group Membership:")
     emp_group.click()
-    
     time.sleep(1)
-    
     xpath = f"//input[@id='membershipCheck{group}']"
     checkbox = driver.find_element(By.XPATH, xpath)
     checkbox.click()
