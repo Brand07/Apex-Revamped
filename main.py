@@ -31,13 +31,13 @@ def login_to_apex():
     #find the username field
     userID_element = driver.find_element(By.ID, "user.login_id")
     #clear the field in case it contains something
-    userID_element.clear
+    userID_element.clear()
     #pass the user ID
     userID_element.send_keys(input("Enter your username: "))
     #locate the password field element
     pw_element = driver.find_element(By.ID, "user.password")
     #clear the field
-    pw_element.clear
+    pw_element.clear()
         #call for the password input
     pw_element.send_keys(getpass.getpass("Enter your password: "))
     pw_element.send_keys(Keys.RETURN)
@@ -131,7 +131,41 @@ def add_user(first_name, last_name, employee_id, badge_num, department):
         print(f"{badge_num} already exists. Proceeding to change existing info.")
         last_name_element = driver.find_element(By.CSS_SELECTOR, '#tr0 > td:nth-child(1) > a:nth-child(1)')
         last_name_element.click()
-        sys.exit()
+        time.sleep(1)
+        #sys.exit()
+        f_name = driver.find_element(By.ID, "edit_user.first_name")
+        # Clear the 'First Name' Field
+        f_name.clear()
+        f_name.send_keys(first_name)
+        l_name = driver.find_element(By.ID, "edit_user.last_name")
+        # Clear the 'Last Name' Field
+        l_name.clear()
+        l_name.send_keys(last_name)
+        emp_id = driver.find_element(By.ID, "addPassport.employee_id")
+        # Clear the 'Employee ID' field.
+        emp_id.clear()
+        emp_id.send_keys(employee_id)
+        badge_number = driver.find_element(By.ID, "addPassport.user_card_key")
+        # Clear the 'Badge Number' Field
+        badge_number.clear()
+        badge_number.send_keys("0", badge_num)
+        dept = driver.find_element(By.LINK_TEXT, "User Group Membership:")
+        dept.click()
+        time.sleep(1)
+        uncheck_all_checkboxes()
+        time.sleep(1)
+        group_assignment(department)
+        #xpath = f"//input[@id='membershipCheck{group_assignment}']"
+        #checkbox = driver.find_element(By.XPATH, xpath)
+        #checkbox.click()
+        add_button = driver.find_element(By.XPATH, "//button[normalize-space()='Add']")
+        ActionChains(driver).move_to_element(add_button).click().perform()
+        time.sleep(2)
+        submit = driver.find_element(By.XPATH, "//button[normalize-space()='Submit']")
+        submit.click()
+        popup = driver.find_element(By.XPATH, "/html/body/div[4]/div[3]/div/button")
+        popup.click()
+        print(f"User {first_name} {last_name} has been added!")
     else: 
         print(f"{badge_num} doesn't exist. Adding now..")
         add_user_link = driver.find_element(By.ID, "addUserLink")
