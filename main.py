@@ -6,15 +6,11 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import TimeoutException
-#from selenium.common.exceptions import NoSuchElementException
 import getpass
 import time
-#import sys
+
 
 # Define the excel sheet for new users
-
-
-
 apex_users = pd.read_excel("New_Apex_Users.xlsx")
 
 # Define the global webdriver
