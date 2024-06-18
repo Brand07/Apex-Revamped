@@ -1,14 +1,14 @@
 import pandas as pd
 from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+#from selenium.webdriver.support.ui import WebDriverWait
+#from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import NoSuchElementException
+#from selenium.common.exceptions import NoSuchElementException
 import getpass
 import time
-import sys
+#import sys
 
 # Define the excel sheet for new users
 
@@ -138,6 +138,8 @@ def add_user(first_name, last_name, employee_id, badge_num, department):
         emp_id.send_keys(employee_id)
         print("Finding the badge number field.")
         badge_number = driver.find_element(By.ID, "badgeNumber")
+        
+
         # Clear the 'Badge Number' Field
         print("Clearing the badge number field.")
         badge_number.clear()
