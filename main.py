@@ -141,13 +141,10 @@ def add_user(first_name, last_name, employee_id, badge_num, department):
             ActionChains(driver).move_to_element(save_button).click().perform()
         
         print("Save button clicked.")
-        #ActionChains(driver).move_to_element(save_button).click().perform()
         time.sleep(2)
         submit = driver.find_element(By.ID, 'updateUser')
         submit.click()
         print("Changes saved.")
-        #popup = driver.find_element(By.XPATH, "/html/body/div[4]/div[3]/div/button")
-        #popup.click()
         print(f"User {first_name}{last_name} has been added!")
     else: 
         print(f"{badge_num} doesn't exist. Adding now..")
@@ -167,9 +164,6 @@ def add_user(first_name, last_name, employee_id, badge_num, department):
         uncheck_all_checkboxes()
         time.sleep(1)
         group_assignment(department)
-        #xpath = f"//input[@id='membershipCheck{group_assignment}']"
-        #checkbox = driver.find_element(By.XPATH, xpath)
-        #checkbox.click()
         add_button = driver.find_element(By.XPATH, "//button[normalize-space()='Add']")
         ActionChains(driver).move_to_element(add_button).click().perform()
         time.sleep(1)
@@ -180,13 +174,6 @@ def add_user(first_name, last_name, employee_id, badge_num, department):
         print(f"User {first_name} {last_name} has been added!")
         #process_users()
         
-
-#ef uncheck_all_checkboxes():
-#   print("Unchecking the boxes.")
-#   checkboxes = driver.find_elements(By.XPATH, "//input[starts-with(@id, 'membershipCheck')]")
-#   for checkbox in checkboxes:
-#       if checkbox.is_selected():
-#           checkbox.click()
 
 
 def edit_all_checkboxes():
@@ -263,16 +250,7 @@ def edit_group_assignment(group):
     elif department == "Voice Pick":
         return edit_group_selection(6)
     
-#edit_group_selection(group):
-#"""
-#HTML IDs are different when editing a user
-#VS when adding a user.
-#"""
-#time.sleep(1)
-#xpath = f"editMembershipCheck{group}"
-#checkbox = driver.find_element(By.ID, xpath)
-#checkbox.click()
-    
+
 
 def edit_group_selection(group):
     try:
