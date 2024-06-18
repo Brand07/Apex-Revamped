@@ -164,7 +164,7 @@ def add_user(first_name, last_name, employee_id, badge_num, department):
         print("Changes saved.")
         #popup = driver.find_element(By.XPATH, "/html/body/div[4]/div[3]/div/button")
         #popup.click()
-        print(f"User {first_name} {last_name} has been added!")
+        print(f"User {first_name}{last_name} has been added!")
     else: 
         print(f"{badge_num} doesn't exist. Adding now..")
         add_user_link = driver.find_element(By.ID, "addUserLink")
@@ -195,6 +195,7 @@ def add_user(first_name, last_name, employee_id, badge_num, department):
         popup.click()
         print(f"User {first_name} {last_name} has been added!")
         #process_users()
+        driver.quit("All Done - Quiting WebDriver.")
 
 
 def uncheck_all_checkboxes():
