@@ -89,36 +89,21 @@ def add_user(first_name, last_name, employee_id, badge_num, department):
         print(f"{badge_num} already exists. Proceeding to change existing info.")
         last_name_element = driver.find_element(By.CSS_SELECTOR, '#tr0 > td:nth-child(1) > a:nth-child(1)')
         last_name_element.click()
-        time.sleep(1)
-        #sys.exit()
-        #print("Finding First Name element.")
+        time.sleep(2)
         f_name = driver.find_element(By.ID, "edit_user.first_name")\
         # Clear the 'First Name' Field
-        #print("First Name field.")
         f_name.clear()
-        #print("Sending the new first name.")
         f_name.send_keys(first_name)
-        #print("Finding the last name field.")
         l_name = driver.find_element(By.ID, "edit_user.last_name")
         # Clear the 'Last Name' Field
-        #print("Clearing the last name field.")
         l_name.clear()
-        #print("Sending the new last name.")
         l_name.send_keys(last_name)
-        #print("Finding the emp ID field.")
         emp_id = driver.find_element(By.ID, "employeeId")
         # Clear the 'Employee ID' field.
-        #print("Clear the emp ID field.")
         emp_id.clear()
-        #print("Sending the new employee ID.")
         emp_id.send_keys(employee_id)
-        #print("Finding the badge number field.")
         badge_number = driver.find_element(By.ID, "badgeNumber")
-        
-        
-
-        # Clear the 'Badge Number' Field
-        print("Clearing the badge number field.")
+        # Clear the 'Badge Number' field
         badge_number.clear()
         badge_number.send_keys("0", badge_num)
         dept = driver.find_element(By.LINK_TEXT, "User Group Membership:")
