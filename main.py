@@ -168,8 +168,9 @@ def edit_all_checkboxes():
     time.sleep(1)
     print("Unchecking all checkboxes.")
     checkboxes = ['//*[@id="editMembershipCheck0"]', '//*[@id="editMembershipCheck1"]', '//*[@id="editMembershipCheck2"]',
-                    '//*[@id="editMembershipCheck3"]', '//*[@id="editMembershipCheck4"]', '//*[@id="editMembershipCheck5"]',
-                    '//*[@id="editMembershipCheck6"]', '//*[@id="editMembershipCheck7"]', '//*[@id="editMembershipCheck8"]']
+                    '//*[@id="editMembershipCheck3"]', '//*[@i+d="editMembershipCheck4"]', '//*[@id="editMembershipCheck5"]',
+                    '//*[@id="editMembershipCheck6"]', '//*[@id="editMembershipCheck7"]', '//*[@id="editMembershipCheck8"]',
+                    '//*[@id="editMembershipCheck9"]', '//*[@id="editMembershipCheck10"]', '//*[@id="editMembershipCheck11"]',]
     
     for xpath in checkboxes:
         try:
