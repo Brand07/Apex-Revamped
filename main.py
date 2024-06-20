@@ -86,6 +86,7 @@ def add_user(first_name, last_name, employee_id, badge_num, department):
     time.sleep(1)
     #check if the element exists
     if len(user_element) == 1:
+
         print(f"{badge_num} already exists. Proceeding to change existing info.")
         last_name_element = driver.find_element(By.CSS_SELECTOR, '#tr0 > td:nth-child(1) > a:nth-child(1)')
         last_name_element.click()
@@ -126,7 +127,7 @@ def add_user(first_name, last_name, employee_id, badge_num, department):
         submit = driver.find_element(By.ID, 'updateUser')
         submit.click()
         print("Changes saved.")
-        print(f"User {first_name}{last_name} has been added!")
+        print(f"User {first_name}{last_name} has been added with {department} permissions.")
     else: 
         print(f"{badge_num} doesn't exist. Adding now..")
         add_user_link = driver.find_element(By.ID, "addUserLink")
@@ -153,7 +154,7 @@ def add_user(first_name, last_name, employee_id, badge_num, department):
         popup = driver.find_element(By.XPATH, "/html/body/div[4]/div[3]/div/button")
         popup.click()
         print(f"User {first_name} {last_name} has been added!")
-        #process_users()
+        
         
 
 
@@ -186,7 +187,9 @@ def uncheck_all_checkboxes():
     print("Unchecking all checkboxes.")
     checkboxes = ['//*[@id="membershipCheck0"]', '//*[@id="membershipCheck1"]', '//*[@id="membershipCheck2"]',
                   '//*[@id="membershipCheck3"]', '//*[@id="membershipCheck4"]', '//*[@id="membershipCheck5"]',
-                  '//*[@id="membershipCheck6"]', '//*[@id="membershipCheck7"]', '//*[@id="membershipCheck8"]']
+                  '//*[@id="membershipCheck6"]', '//*[@id="membershipCheck7"]', '//*[@id="membershipCheck8"]',
+                  '//*[@id="membershipCheck9"]', '//*[@id="membershipCheck10"]', '//*[@id="membershipCheck11"]',]
+    
     for xpath in checkboxes:
         try:
             # Wait for the checkbox to be clickable
