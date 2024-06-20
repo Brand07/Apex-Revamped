@@ -153,7 +153,7 @@ def add_user(first_name, last_name, employee_id, badge_num, department):
         submit.click()
         popup = driver.find_element(By.XPATH, "/html/body/div[4]/div[3]/div/button")
         popup.click()
-        print(f"User {first_name} {last_name} has been added!")
+        print(f"User {first_name} {last_name} has been added with {department} permissions.")
         
         
 
@@ -169,7 +169,8 @@ def edit_all_checkboxes():
     print("Unchecking all checkboxes.")
     checkboxes = ['//*[@id="editMembershipCheck0"]', '//*[@id="editMembershipCheck1"]', '//*[@id="editMembershipCheck2"]',
                     '//*[@id="editMembershipCheck3"]', '//*[@id="editMembershipCheck4"]', '//*[@id="editMembershipCheck5"]',
-                    '//*[@id="editMembershipCheck6"]', '//*[@id="editMembershipCheck7"]', '//*[@id="editMembershipCheck8"]']
+                    '//*[@id="editMemb
+                    ershipCheck6"]', '//*[@id="editMembershipCheck7"]', '//*[@id="editMembershipCheck8"]']
     
     for xpath in checkboxes:
         try:
