@@ -8,6 +8,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import TimeoutException
 import getpass
 import time
+import sys
 
 
 # Define the excel sheet for new users
@@ -18,32 +19,48 @@ driver = webdriver.Firefox()
 # Set the window size to 1920x1080
 driver.set_window_size(1920, 1080)
 
-def login_to_apex():
+def login_to_apex(retry_count=0):
     """
     Opens the webdriver, prompts for login info,
     and navigates to the User Management page.
     """
-    #define the URL to connect load
-    driver.get("https://apexconnectandgo.com/")
-    #find the username field
-    userID_element = driver.find_element(By.ID, "user.login_id")
-    #clear the field in case it contains something
-    userID_element.clear()
-    #pass the user ID
-    userID_element.send_keys(input("Enter your username: "))
-    userID_element.send_keys(Keys.TAB)
-    #locate the password field element
-    pw_element = driver.find_element(By.ID, "user.password")
-    #clear the field
-    pw_element.clear()
-        #call for the password input
-    pw_element.send_keys(getpass.getpass("Enter your password: "))
-    pw_element.send_keys(Keys.RETURN)
-    #Give the page time to load
-    time.sleep(4)
-    print("Navigating to the 'Manage Users' screen.")
-    #Navigate to the 'Manage Users' screen
-    driver.get("https://apexconnectandgo.com/APEX-Login/accountAction_initManageuser.action?isShow=users")
+    try:
+        #define the URL to connect load
+        driver.get("https://apexconnectandgo.com/")
+        #find the username field
+        userID_element = driver.find_element(By.ID, "user.login_id")
+        #clear the field in case it contains something
+        userID_element.clear()
+        #pass the user ID
+        userID_element.send_keys(input("Enter your username: "))
+        userID_element.send_keys(Keys.TAB)
+        #locate the password field element
+        pw_element = driver.find_element(By.ID, "user.password")
+        #clear the field
+        pw_element.clear()
+            #call for the password input
+        pw_element.send_keys(getpass.getpass("Enter your password: "))
+        pw_element.send_keys(Keys.RETURN)
+        #Give the page time to load
+        time.sleep(4)
+
+        if not driver.find_elements(By.ID, "some_dashboard_element"):
+            raise Exception("Login failed. Dashboard element not found.")
+        
+        print("Navigating to the 'Manage Users' screen.")
+        driver.get("https://apexconnectandgo.com/APEX-Login/accountAction_initManageuser.action?isShow=users")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        if retry_count < 3:  # Set retry limit to 3 attempts
+            print("Retrying login...")
+            login_to_apex(retry_count + 1)
+        else:
+            print("Failed to login after multiple attempts. Exiting.")
+            sys.exit(1)  # Exit the script with an error code
+
+        print("Navigating to the 'Manage Users' screen.")
+        #Navigate to the 'Manage Users' screen
+        driver.get("https://apexconnectandgo.com/APEX-Login/accountAction_initManageuser.action?isShow=users")
     process_users()
     
 
