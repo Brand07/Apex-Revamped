@@ -77,7 +77,6 @@ def add_user(first_name, last_name, employee_id, badge_num, department):
     existing_user_search.click()
     existing_user_search.clear()
     existing_user_search.send_keys(badge_num)
-    print("Searching..")
     existing_user_search.send_keys(Keys.RETURN)
     #check for element on the page
     time.sleep(2)
