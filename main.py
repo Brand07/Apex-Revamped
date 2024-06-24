@@ -44,7 +44,7 @@ def login_to_apex(retry_count=0):
         #Give the page time to load
         time.sleep(4)
 
-        if not driver.find_elements(By.ID, "some_dashboard_element"):
+        if not driver.find_elements(By.XPATH, "/html/body/div[1]/div[3]/div/div[1]/div/h2"):
             raise Exception("Login failed. Dashboard element not found.")
         
         print("Navigating to the 'Manage Users' screen.")
