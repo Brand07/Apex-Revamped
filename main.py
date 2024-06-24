@@ -126,7 +126,7 @@ def add_user(first_name, last_name, employee_id, badge_num, department):
         submit = driver.find_element(By.ID, 'updateUser')
         submit.click()
         print("Changes saved.")
-        print(f"User {first_name}{last_name} has been added with {department} permissions.")
+        print(f"User {first_name} {last_name} has been added with {department} permissions.")
     else: 
         print(f"{badge_num} doesn't exist. Adding now..")
         add_user_link = driver.find_element(By.ID, "addUserLink")
