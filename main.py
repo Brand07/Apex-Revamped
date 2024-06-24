@@ -43,7 +43,7 @@ def login_to_apex(retry_count=0):
         pw_element.send_keys(Keys.RETURN)
         #Give the page time to load
         time.sleep(4)
-
+        # This looks for the INBOX element on the screen after a successful login
         if not driver.find_elements(By.XPATH, "/html/body/div[1]/div[3]/div/div[1]/div/h2"):
             raise Exception("Login failed. Dashboard element not found.")
         
@@ -131,6 +131,7 @@ def add_user(first_name, last_name, employee_id, badge_num, department):
         edit_group_assignment(department)
         time.sleep(1)
         print('Clicking the save button')
+        
         try:
             save_button = driver.find_element(By.XPATH, '/html/body/div[21]/div[3]/div/button[2]')
             ActionChains(driver).move_to_element(save_button).click().perform()
