@@ -11,6 +11,8 @@ import time
 import sys
 
 
+
+
 # Define the excel sheet for new users
 apex_users = pd.read_excel("New_Apex_Users.xlsx")
 
@@ -18,6 +20,24 @@ apex_users = pd.read_excel("New_Apex_Users.xlsx")
 driver = webdriver.Firefox()
 # Set the window size to 1920x1080
 driver.set_window_size(1920, 1080)
+
+def format_badge_number(badge_number):
+    # Convert the badge number to a string
+    badge_str = str(badge_number)
+    
+    # Check the length of the badge number
+    if len(badge_str) == 4:
+        # If 4 digits long, add a "0" at the beginning
+        return "0" + badge_str
+    elif len(badge_str) == 5:
+        # If 5 digits long, return it as is
+        return badge_str
+    else:
+        # Optionally, handle badge numbers that are not 4 or 5 digits long
+        print("Badge number must be 4 or 5 digits long.")
+        return None
+
+
 
 def login_to_apex(retry_count=0):
     """
@@ -122,7 +142,8 @@ def add_user(first_name, last_name, employee_id, badge_num, department):
         badge_number = driver.find_element(By.ID, "badgeNumber")
         # Clear the 'Badge Number' field
         badge_number.clear()
-        badge_number.send_keys("0", badge_num)
+        #badge_number.send_keys("0", badge_num)
+        badge_number.send_keys(format_badge_number(badge_num))
         dept = driver.find_element(By.LINK_TEXT, "User Group Membership:")
         dept.click()
         time.sleep(1)
@@ -156,7 +177,8 @@ def add_user(first_name, last_name, employee_id, badge_num, department):
         emp_id = driver.find_element(By.ID, "addPassport.employee_id")
         emp_id.send_keys(employee_id)
         badge_number = driver.find_element(By.ID, "addPassport.user_card_key")
-        badge_number.send_keys("0", badge_num)
+        #badge_number.send_keys("0", badge_num)
+        badge_number.send_keys(format_badge_number(badge_num))
         dept = driver.find_element(By.LINK_TEXT, "User Group Membership:")
         dept.click()
         time.sleep(1)
@@ -185,10 +207,11 @@ def edit_all_checkboxes():
     time.sleep(1)
     print("Unchecking all checkboxes.")
     checkboxes = ['//*[@id="editMembershipCheck0"]', '//*[@id="editMembershipCheck1"]', '//*[@id="editMembershipCheck2"]',
-                    '//*[@id="editMembershipCheck3"]', '//*[@i+d="editMembershipCheck4"]', '//*[@id="editMembershipCheck5"]',
+                    '//*[@id="editMembershipCheck3"]', '//*[@id="editMembershipCheck4"]', '//*[@id="editMembershipCheck5"]',
                     '//*[@id="editMembershipCheck6"]', '//*[@id="editMembershipCheck7"]', '//*[@id="editMembershipCheck8"]',
                     '//*[@id="editMembershipCheck9"]', '//*[@id="editMembershipCheck10"]', '//*[@id="editMembershipCheck11"]',]
     
+
     for xpath in checkboxes:
         try:
             # Wait for the checkbox to be clickable
