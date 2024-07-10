@@ -81,6 +81,7 @@ def login_to_apex(retry_count=0):
         print("Navigating to the 'Manage Users' screen.")
         #Navigate to the 'Manage Users' screen
         driver.get("https://apexconnectandgo.com/APEX-Login/accountAction_initManageuser.action?isShow=users")
+        time.sleep(2)
     process_users()
     
 
